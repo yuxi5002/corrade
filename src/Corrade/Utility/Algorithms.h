@@ -83,9 +83,11 @@ template<class T> inline void copy(const Containers::ArrayView<T>& src, const Co
 @m_since_latest
 
 Optimized to call @ref std::memcpy() on largest contiguous sub-dimensions,
-looping over the non-contiguous dimensions. The function has specializations
-for 1D, 2D, 3D and 4D, higher dimensions recurse into these. Expects that both
-arrays have the same size.
+looping over the non-contiguous dimensions (except when memcpy would be called
+for very small pieces of memory, in which case a variant of
+[Duff's device](https://en.wikipedia.org/wiki/Duff's_device) is used. The
+function has specializations for 1D, 2D, 3D and 4D, higher dimensions recurse
+into these. Expects that both arrays have the same size.
 @see @ref Containers::StridedArrayView::isContiguous()
 */
 template<unsigned dimensions> void copy(const Containers::StridedArrayView<dimensions, const char>& src, const Containers::StridedArrayView<dimensions, char>& dst);
